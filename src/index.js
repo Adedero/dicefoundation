@@ -10,7 +10,7 @@ const favicon = require('serve-favicon');
 
 const { IS_PRODUCTION_ENV } = require('./utils/constants')
 
-const PORT = env.get('PORT', 4321)
+const PORT = process.env.PORT || 4321
 
 const app = express()
 
