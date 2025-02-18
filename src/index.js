@@ -6,11 +6,17 @@ const errorHandler = require('./middleware/error-handler')
 const env = require('./utils/env')
 const logger = require('./utils/logger')
 const path = require('node:path')
-const favicon = require('serve-favicon');
+const favicon = require('serve-favicon')
+const session = require('express-session')
+const flash = require('connect-flash')
+const passport = require('./config/passport.config')
+const { connectDB } = require('./config/db.config')
 
 const { IS_PRODUCTION_ENV } = require('./utils/constants')
 
 const PORT = process.env.PORT || 4321
+
+connectDB()
 
 const app = express()
 
@@ -19,6 +25,31 @@ if (IS_PRODUCTION_ENV) {
   app.use(helmet.hidePoweredBy())
 }
 app.use(helmet())
+
+app.use(session({
+  secret: env.get('SESSION_SECRET', 'secret'),
+  resave: false ,
+  saveUninitialized: true,
+  cookie: {
+    secure: IS_PRODUCTION_ENV,
+    rolling: false, 
+    cookie: { maxAge: 60 * 60 * 1000 }
+  }
+}))
+
+app.use(flash())
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use((req, res, next) => {
+  res.locals.info_msg = req.flash('info');
+  res.locals.success_msg = req.flash('success');
+  res.locals.error_msg = req.flash('error');
+  res.locals.user = req.user;
+  res.locals.isAuthenticated = req.isAuthenticated()
+  next();
+})
 
 app.use(express.static('public'))
 app.use(express.urlencoded({ extended: false }))

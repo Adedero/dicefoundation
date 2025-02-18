@@ -1,44 +1,35 @@
-const winston = require('winston')
-const path = require('path')
-const DailyRotateFile = require('winston-daily-rotate-file')
-const { IS_PRODUCTION_ENV } = require('./constants')
+const winston = require('winston');
+const path = require('path');
+const DailyRotateFile = require('winston-daily-rotate-file');
+const { IS_PRODUCTION_ENV } = require('./constants');
 
-const logDirectory = path.resolve('logs')
+const logDirectory = path.resolve('logs');
 
 // Custom colors for log levels
 const customColors = {
   error: 'red',
   warn: 'yellow',
   info: 'blue',
-  debug: 'green'
-}
+  debug: 'green',
+};
 
-winston.addColors(customColors)
+winston.addColors(customColors);
 
 // Create a logger instance
 const logger = winston.createLogger({
-  level: 'info',
+  level: 'debug', // Set to debug to show all logs in development
   format: winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.colorize({ all: true }), // Apply colors to all parts
     winston.format.printf(({ timestamp, level, message }) => {
-      return `${timestamp} [${level.toUpperCase()}]: ${message}`
+      return `${timestamp} [${level}]: ${message}`;
     })
   ),
-  transports: []
-})
-
-// Add Console transport
-logger.add(
-  new winston.transports.Console({
-    format: winston.format.combine(
-      winston.format.colorize({ all: true }), // Apply colors to all parts
-      winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), // Include timestamp
-      winston.format.printf(({ timestamp, level, message }) => {
-        return `${timestamp} [${level.toUpperCase()}]: ${message}`
-      })
-    )
-  })
-)
+  transports: [
+    // Add Console transport
+    new winston.transports.Console()
+  ]
+});
 
 // Add file logging with rotation in production mode
 if (IS_PRODUCTION_ENV) {
@@ -49,9 +40,15 @@ if (IS_PRODUCTION_ENV) {
       zippedArchive: true,
       maxSize: '20m',
       maxFiles: '14d',
-      level: 'info'
+      level: 'info',
+      format: winston.format.combine(
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.printf(({ timestamp, level, message }) => {
+          return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+        })
+      )
     })
-  )
+  );
 
   logger.add(
     new DailyRotateFile({
@@ -60,19 +57,25 @@ if (IS_PRODUCTION_ENV) {
       zippedArchive: true,
       maxSize: '20m',
       maxFiles: '14d',
-      level: 'error'
+      level: 'error',
+      format: winston.format.combine(
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.printf(({ timestamp, level, message }) => {
+          return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+        })
+      )
     })
-  )
+  );
 }
 
 // Custom error handler
-const originalError = logger.error
-logger.error = (msg) => {
-  if (msg instanceof Error) {
-    originalError.call(logger, `${msg.message}\nStack: ${msg.stack}`)
+const originalError = logger.error;
+logger.error = (msg, err) => {
+  if (err && err instanceof Error) {
+    originalError.call(logger, `${msg}: ${err.message}\nStack: ${err.stack}`);
   } else {
-    originalError.call(logger, msg)
+    originalError.call(logger, `${msg} :${err}`);
   }
-}
+};
 
-module.exports = logger
+module.exports = logger;

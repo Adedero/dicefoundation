@@ -1,0 +1,23 @@
+<header id="main-header" class="sticky top-0 z-10 bg-black/20 backdrop-blur-sm p-4 md:px-12 h-[4.5rem] flex items-center justify-between border-b border-b-white/20">
+  <a href="/">
+    <%- include('../icons/logo', { height: '22', fill: 'white' }) %>
+  </a>
+
+  <div id="nav" class="relative w-dvw opacity-0 h-0 overflow-hidden transition-all md:opacity-100 md:w-auto md:h-auto md:flex items-center">
+    <div class="md:hidden absolute top-4 right-4">
+      <button id="close-btn">
+        <span class="material-symbols-rounded" style="font-size: 2rem;">close</span>
+      </button>
+    </div>
+
+    <a data-nav href="/">Home</a>
+    <a data-nav href="/auth/login">Log In</a>
+    <a data-nav href="/auth/register">Register</a>
+  </div>
+
+  <div class="md:hidden">
+    <button id="menu-btn">
+      <span class="material-symbols-rounded" style="font-size: 2rem;">menu</span>
+    </button>
+  </div>
+</header>

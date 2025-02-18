@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-
+    include('../partials/_head', {
+      title: 'Mr. Dice - Login',
+      head: null
+    })
+  %>
+  <body class="bg-black text-white"> 
+    <%- include('../partials/auth/_header') %>
+    <%- include('../partials/_toast') %>
+    <main>
+      <section class="w-full flex items-center justify-center min-h-[36rem] px-4 py-10">
+        <div>
+          <div classs="w-full">
+            <h1 class="font-semibold text-4xl">Log in</h1>
+            <p class="mt-1">
+              <span>Dont have an account?</span>
+              <a href="/auth/register" class="text-blue-500 hover:underline font-medium">Register.</a>
+            </p>
+          </div>
+
+          <form action="/auth/login" method="post" class="mt-5">
+            <div class="border rounded-md px-5 py-6 grid gap-4 w-full md:w-80">
+              <div class="grid gap-1">
+                <label for="email" class="font-medium">Email</label>
+                <input type="email" name="email" id="email" required class="w-full border bg-transparent outline-none rounded-md px-3 py-2">
+              </div>
+              
+              <div class="grid gap-1">
+                <label for="password" class="font-medium">Password</label>
+                <input type="password" name="password" id="password" required class="w-full border bg-transparent outline-none rounded-md px-3 py-2">
+              </div>
+
+              <button type="submit" class="mt-4 btn secondary rounded-md">Log in</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+    <%- include("../partials/_scripts") %>
+  </body>
+</html>

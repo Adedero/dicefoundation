@@ -1,6 +1,10 @@
 <svg 
-  width="<%= locals.height ? 'auto' : locals.width ?? '242' %>" 
-  height="<%= locals.width ? 'auto' : locals.height ?? '80' %>" 
+  <% if (locals.width) { %>
+    width="<%= locals.width %>" 
+  <% } %>
+  <% if (locals.height) { %>
+    height="<%= locals.height %>" 
+  <% } %>
   viewBox="0 0 242 80" 
   fill="none" 
   xmlns="http://www.w3.org/2000/svg"
