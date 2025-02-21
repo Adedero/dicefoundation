@@ -44,13 +44,4 @@ router.get('/', async (req, res) => {
    })
  })
 
- /* router.get('/admin', (req, res) => {
-   const adminUrl = env.get('ADMIN_URL')
-   if (adminUrl) {
-     res.redirect(adminUrl)
-     return
-   }
-   res.render('not-found')
- }) */
-
 module.exports = router

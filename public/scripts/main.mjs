@@ -1,4 +1,3 @@
-import AdminModule from "./utils/admin.js";
 
 AOS.init({
   once: true,
@@ -60,5 +59,3 @@ function handleToastClose(event) {
     }
   }
 }
-
-AdminModule()

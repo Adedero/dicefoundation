@@ -2,6 +2,7 @@ const winston = require('winston');
 const path = require('path');
 const DailyRotateFile = require('winston-daily-rotate-file');
 const { IS_PRODUCTION_ENV } = require('./constants');
+const { HTTPException } = require('./helpers');
 
 const logDirectory = path.resolve('logs');
 
@@ -71,10 +72,10 @@ if (IS_PRODUCTION_ENV) {
 // Custom error handler
 const originalError = logger.error;
 logger.error = (msg, err) => {
-  if (err && err instanceof Error) {
-    originalError.call(logger, `${msg}: ${err.message}\nStack: ${err.stack}`);
+  if (err && (err instanceof Error || err instanceof HTTPException)) {
+    originalError.call(logger, `${msg || 'Error'}: ${err.message}\nStack: ${err.stack}`);
   } else {
-    originalError.call(logger, `${msg} :${err}`);
+    originalError.call(logger, `${msg || 'Error'} :${err}`);
   }
 };
 

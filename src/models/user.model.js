@@ -32,7 +32,7 @@ const User = sequelize.define(
       defaultValue: false
     },
     image: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: true
     }
   },

@@ -4,13 +4,13 @@ const router = Router()
 const userRouter = require('./user.routes')
 const authRouter = require('./auth.routes')
 const adminRouter = require('./admin.routes')
-const isAuthenticated = require('../middleware/auth.middleware')
+const authenticate = require('../middleware/auth.middleware')
 
 const routes = () => {
   
   router.use('', userRouter)
   router.use('/auth', authRouter)
-  router.use('/admin', isAuthenticated, adminRouter)
+  router.use('/admin', authenticate(),  adminRouter)
 
   return router
 }

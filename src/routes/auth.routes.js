@@ -1,87 +1,103 @@
 const express = require('express');
-const passport = require('../config/passport.config');
-const argon2 = require('argon2');
+const { hash, verify } = require('argon2');
 const User = require('../models/user.model');
-const { Op } = require("sequelize");
-const logger = require('../utils/logger');
+const { HTTPException, objectFromFields } = require('../utils/helpers');
+const jwt = require('jsonwebtoken');
+const env = require('../utils/env');
 
 const router = express.Router();
 
-// Register route
-router.get('/register', async (req, res) => {
-  const user = await User.findOne()
+//LOG IN
+router.post('/login', async (req, res, next) => {
+  const { email, password } = req.body
 
-  if (user) {
-    return res.redirect('/auth/login')
+  if (!email || !password) {
+    throw new HTTPException(400, 'Email and password are required')
   }
-  res.render('auth/register')
+  if (password.length < 6) {
+    res.status(400).json({ message: 'Password must be at least 6 characters' })
+    return
+  }
+
+  try {
+    const user = await User.findOne({ where: { email } })
+
+    if (!user) {
+      throw new HTTPException(400, 'Incorrect email or password')
+    }
+
+    const isPasswordCorrect = await verify(user.password, password)
+
+    if (!isPasswordCorrect) {
+      throw new HTTPException(400, 'Incorrect email or password')
+    }
+
+    const jwtPayload = { id: user.id, role: user.role }
+    const token = jwt.sign(jwtPayload, env.get('SECRET'), { expiresIn: '1h' })
+    const responsePayload = { ...objectFromFields(user, ['id', 'name', 'email', 'image']), token }
+    return res.status(200).json(responsePayload)
+  } catch (error) {
+    next(error)
+  }
 })
 
-router.post('/register', async (req, res) => {
+
+// REGISTER
+router.post('/register', async (req, res, next) => {
   const { name, email, password } = req.body;
+
+  if (!name || !email ||!password) {
+    throw new HTTPException(400, 'Name, email and password are required')
+  }
+
+  try {
+    const adminExists = await User.findOne()
+
+    if (adminExists) {
+      throw new HTTPException(403, 'You are not allowed to register')
+    }
+
+    const existingUser = await User.findOne({ where: { email }})
+
+    if (existingUser) {
+      throw new HTTPException(400, 'An account with this email already exists.')
+    }
+
+    const hashedPassword = await hash(password)
+
+    const user = User.build({ name, email, password: hashedPassword })
+    await user.save()
+    return res.status(201).json({ message: 'User created successfully' })
+
+  } catch (error) {
+    next(error)
+  }
+})
+
+
+router.put('/register', async (req, res, next) => {
+  const { name, email, password } = req.body;
+
+  if (!name || !email ||!password) {
+    throw new HTTPException(400, 'Name, email and password are required')
+  }
 
   try {
     const existingUser = await User.findOne({ where: { email }})
 
     if (existingUser) {
-      req.flash('error', 'An account with this email already exists.')
-      return res.redirect('/auth/register')
+      throw new HTTPException(400, 'An account with this email already exists.')
     }
-    const hash = await argon2.hash(password);
 
-    const user = User.build({ name, email, password: hash })
-    
+    const hashedPassword = await hash(password)
+
+    const user = User.build({ name, email, password: hashedPassword })
     await user.save()
-
-    req.flash('success', 'Registration successful. You can now log in.')
-    res.redirect('/auth/login')
-  } catch (err) {
-    logger.error('Error registering user', err)
-    req.flash('error', 'An error occurred. Please try again.')
-    res.redirect('/auth/register')
+    return res.status(201).json({ message: 'User created successfully' })
+  } catch (error) {
+    next(error)
   }
-});
-
-
-//LOG IN ROUTE
-router.get('/login', (req, res) => {
-  res.render('auth/login')
 })
 
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err) {
-      //return next(err);
-      req.flash('error', err.message || 'Log in failed.');
-      return res.redirect('/auth/login');
-    }
-    if (!user) {
-      req.flash('error', info.message || 'Invalid credentials.');
-      return res.redirect('/auth/login');
-    }
-    req.logIn(user, (err) => {
-      if (err) {
-        //return next(err);
-        req.flash('error', err.message || 'Log in failed.');
-        return res.redirect('/auth/login');
-      }
-      return res.redirect('/admin');
-    });
-  })(req, res, next);
-});
-
-
-
-// Logout route
-router.get('/logout', (req, res) => {
-  req.logout((err) => {
-    if (err) {
-      req.flash('error', 'Error logging out.')
-      return res.redirect(req.get('Referrer') || '/')
-    }
-    //req.flash('success_msg', 'Logout successful.')
-    res.redirect('/')
-  })
-});
 
 module.exports = router;

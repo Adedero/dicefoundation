@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize')
 const { sequelize } = require('../config/db.config')
 
-const HomePage = sequelize.define(
-  'HomePage',
+const Page = sequelize.define(
+  'Page',
   {
     id: {
       type: DataTypes.UUID,
@@ -10,16 +10,11 @@ const HomePage = sequelize.define(
       primaryKey: true
     },
     title: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      unique: true
     },
-    largeText: {
-      type: DataTypes.STRING
-    },
-    introduction: {
-      type: DataTypes.TEXT
-    },
-    heroImage: {
-      type: DataTypes.STRING
+    content: {
+      type: DataTypes.JSONB
     }
   },
   {
@@ -27,4 +22,4 @@ const HomePage = sequelize.define(
   }
 )
 
-module.exports = HomePage
+module.exports = Page
