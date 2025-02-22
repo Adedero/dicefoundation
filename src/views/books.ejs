@@ -19,8 +19,8 @@
           </div>
 
           <div class="mt-16">
-            <% if (pageData?.query) { %>
-              <p class="mb-3 text-white/60">Your search for "<span class="text-white"><%= pageData.query %></span>" yielded <span class="text-white"><%= pageData.books.length %></span> <%= pageData.books.length === 1 ? 'result' : 'results' %></p>
+            <% if (locals.pageData?.query) { %>
+              <p class="mb-3 text-white/60">Your search for "<span class="text-white"><%= pageData.query %></span>" yielded <span class="text-white"><%= locals.pageData.books.length %></span> <%= locals.pageData.books.length === 1 ? 'result' : 'results' %></p>
             <% } %>
             <form action="books" method="get" data-aos="fade-down" class="mb-16">
               <div class="w-full relative">
@@ -28,7 +28,7 @@
                   type="search"
                   name="search"
                   id="search"
-                  value="<%= pageData.query %>"
+                  value="<%= locals.pageData?.query %>"
                   placeholder="Search books"
                   class="bg-highlight w-full text-lg p-4 rounded-lg outline-none
                   focus-within:ring-2 md:focus-within:ring-4 ring-white pr-12 md:pr-40"
@@ -46,7 +46,7 @@
             </form>
 
             <div class="w-full grid gap-5 grid-cols-[repeat(auto-fill,minmax(280px,1fr))]">
-              <% pageData.books.forEach((book, index) => { %>
+              <% locals.pageData.books?.forEach((book, index) => { %>
                 <div data-aos="fade-up" data-aos-delay="<%= index * 100 %>" class="rounded-xl bg-highlight p-4 grid gap-3">
                   <div class="h-60 w-full overflow-hidden rounded-xl">
                     <img src="<%= book.coverImage %>" alt="<%= book.title %>" class="w-full h-full object-cover">

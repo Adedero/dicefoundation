@@ -92,7 +92,7 @@ module.exports = {
 
         // Set caching headers (note: max-age is in seconds; here it is set to 10 seconds)
         res.setHeader('Cache-Control', 'public, max-age=10');
-
+      
         return res.status(200).json(result);
       } catch (error) {
         next(error);
@@ -205,9 +205,20 @@ module.exports = {
             }
           }
 
-          const updated = await Model.update(updatedData, { where: query, transaction, returning: true  })
+          const recordToUpdate = await Model.findOne({ where: query, transaction });
 
-          updatedData = updated[1][0]
+          if (!recordToUpdate) {
+            throw new HTTPException(404, `Item not found`);
+          }
+
+          // Update the record with the new data
+          Object.assign(recordToUpdate, updatedData);
+
+          // Save the updated record
+          await recordToUpdate.save({ transaction });
+
+          console.log(recordToUpdate)
+          updatedData = recordToUpdate
 
           const onBeforeEndContext = { req, res, data: updatedData, transaction }
 
