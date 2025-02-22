@@ -10,29 +10,21 @@ const User = sequelize.define(
       primaryKey: true
     },
     name: {
-      type: DataTypes.TEXT
+      type: DataTypes.STRING(255)
     },
     email: {
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       unique: true,
     },
     password: {
-      type: DataTypes.TEXT,
-    },
-    resetPasswordToken: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    resetPasswordExpire: {
-      type: DataTypes.DATE,
-      allowNull: true
+      type: DataTypes.STRING,
     },
     verified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
     image: {
-      type: DataTypes.TEXT,
+      type: DataTypes.TEXT('long'),
       allowNull: true
     }
   },

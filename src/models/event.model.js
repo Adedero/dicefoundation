@@ -71,7 +71,7 @@ const Event = sequelize.define(
       allowNull: true
     },
     gallery: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: DataTypes.STRING,
       allowNull: true
     },
     registrationLink: {
@@ -79,7 +79,7 @@ const Event = sequelize.define(
       allowNull: true
     },
     socialMediaLinks: {
-      type: DataTypes.ARRAY(DataTypes.JSONB),
+      type: DataTypes.JSON,
       allowNull: true
     },
     price: {

@@ -66,7 +66,7 @@ const Book = sequelize.define(
       defaultValue: 'PUBLISHED'
     },
     buyLinks: {
-      type: DataTypes.ARRAY(DataTypes.JSONB),
+      type: DataTypes.JSON,
       allowNull: true
     }
   },

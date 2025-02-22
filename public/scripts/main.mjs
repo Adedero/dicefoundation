@@ -15,6 +15,13 @@ window.addEventListener('scroll', () => {
   }
 })
 
+const backBtn = document.querySelector('[data-back-btn]')
+if (backBtn) {
+  backBtn.addEventListener('click', () => {
+    window.history.back()
+  })
+}
+
 const nav = document.querySelector('#nav')
 const menuBtn = document.querySelector('#menu-btn')
 const closeBtn = document.querySelector('#close-btn')

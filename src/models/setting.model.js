@@ -14,7 +14,7 @@ const Setting = sequelize.define(
       unique: true
     },
     socialMediaLinks: {
-      type: DataTypes.ARRAY(DataTypes.JSONB),
+      type: DataTypes.JSON,
       allowNull: true
     }
   },

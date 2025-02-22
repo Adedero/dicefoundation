@@ -11,7 +11,7 @@ const { Op } = require('sequelize')
 router.use(async(req, res, next) => {
   try {
     const settings = await Setting.findOne({ raw: true })
-    const socials = settings.socialMediaLinks?.map((link) => {
+    const socials = settings?.socialMediaLinks?.map((link) => {
       const label = link.label
       const href = link.link
       const icon = getIcon(link.label)
