@@ -24,9 +24,11 @@ if (IS_PRODUCTION_ENV) {
 }
 app.use(helmet())
 
-app.use(cors({
-  origin: env.get('ADMIN_URL'),
-}))
+if (!IS_PRODUCTION_ENV) {
+  app.use(cors({
+    origin: env.get('CLIENT_URL'),
+  }))
+}
 
 app.use(
   (req, res, next) => {

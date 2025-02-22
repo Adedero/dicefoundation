@@ -9,7 +9,7 @@ const sequelize = new Sequelize({
   username: env.get('DB_USERNAME'),
   password: env.get('DB_PASSWORD'),
   database: env.get('DB_NAME'),
-  dialect: 'postgres',
+  dialect: env.get('DB_DIALECT'),
   logging: false
 })
 
