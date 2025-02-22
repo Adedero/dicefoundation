@@ -15,7 +15,7 @@
       <p>Please try again later.</p>
 
       <% if (locals.error) { %>
-        <div class="px-2 py-4 rounded-md border-white">
+        <div class="mt-8 px-2 py-4 rounded-md bg-red-500 text-white w-96">
           <p class="whitespace-pre-wrap"><%= error.message ? error.message : error %></p>
         </div>
       <% } %>
