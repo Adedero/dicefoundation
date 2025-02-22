@@ -33,9 +33,9 @@ router.get('/', async (req, res, next) => {
       db.Event.findAll({ where: { featured: true }, raw: true })
     ])
 
-    if (!homePage) {
+    /* if (!homePage) {
       return res.render('not-found')
-    }
+    } */
   
     const formattedEvents = featuredEvents.map((event) => {
       return {
