@@ -22,7 +22,6 @@ const connectDB = () => {
       logger.info('Database connected successfully')
       sequelize.sync({ alter: true })
       loadModels(db)
-      //console.log(db)
     })
     .catch((err) => {
       logger.error('Unable to connect to the database', err)
