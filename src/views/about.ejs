@@ -18,14 +18,14 @@
             <div class="w-[30%] h-[2px] bg-white"></div>
           </div>
 
-          <div data-aos="fade-up" data-aos-delay="100" class="mt-16 text-left whitespace-pre-wrap"><%- pageData.content.description %></div>
+          <div data-aos="fade-up" data-aos-delay="100" class="mt-16 text-left whitespace-pre-wrap"><%- pageData?.content?.description %></div>
 
           <p data-aos="fade-right" class="mt-4 bastliga text-[4rem] md:text-[5rem] font-thin">Ikenna Okoroafor</p>
         </div>
       </section>
 
 
-      <%- include('./partials/_footer', { socials: locals.socials }) %>
+      <%- include('./partials/_footer') %>
     </main>
     <%- include("./partials/_scripts") %>
   </body>

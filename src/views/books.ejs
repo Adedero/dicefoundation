@@ -19,7 +19,7 @@
           </div>
 
           <div class="mt-16">
-            <% if (pageData.query) { %>
+            <% if (pageData?.query) { %>
               <p class="mb-3 text-white/60">Your search for "<span class="text-white"><%= pageData.query %></span>" yielded <span class="text-white"><%= pageData.books.length %></span> <%= pageData.books.length === 1 ? 'result' : 'results' %></p>
             <% } %>
             <form action="books" method="get" data-aos="fade-down" class="mb-16">

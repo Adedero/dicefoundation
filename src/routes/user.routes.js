@@ -72,7 +72,7 @@ router.get('/books', async (req, res, next) => {
   const { search } = req.query
   const searchQuery = search ? search.toString() : ''
   try {
-    const books = await db.Book.findAll({ where: { title: { [Op.iLike]: `%${searchQuery}%` } }, raw: true })
+    const books = await db.Book.findAll({ where: { title: { [Op.like]: `%${searchQuery}` } }, raw: true })
 
     res.locals.pageData = {
       books,
@@ -106,7 +106,7 @@ router.get('/books/:slug', async (req, res, next) => {
   const { search } = req.query
   const searchQuery = search ? search.toString() : ''
   try {
-    const events = await db.Event.findAll({ where: { title: { [Op.iLike]: `%${searchQuery}%` } }, raw: true })
+    const events = await db.Event.findAll({ where: { title: { [Op.like]: `%${searchQuery}` } }, raw: true })
 
     const formattedEvents = events.map((event) => {
       return {
