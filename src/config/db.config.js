@@ -5,7 +5,8 @@ const path = require('node:path')
 const fs = require('node:fs')
 
 const sequelize = new Sequelize({
-  host: env.get('DB_HOST', 'localhost'),
+  host: env.get('DB_HOST'),
+  port: env.get('DB_PORT'),
   username: env.get('DB_USERNAME'),
   password: env.get('DB_PASSWORD'),
   database: env.get('DB_NAME'),

@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json({ limit: '20mb' }))
 
 app.use(favicon(path.resolve('public', 'favicon.ico')))
-app.use('/primeicons', express.static(path.resolve('node_modules', 'primeicons')));
+app.use('/primeicons', express.static(path.resolve('node_modules', 'primeicons')))
 
 
 app.set('view engine', 'ejs')
@@ -54,7 +54,7 @@ app.use(
   },
   express.static('dist')
 )
-app.use('/admin', express.static('dist'));
+app.use('/admin', express.static('dist'))
 
 app.get('/admin*', (req, res) => {
   res.sendFile(path.resolve('dist', 'index.html'));
