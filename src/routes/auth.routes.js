@@ -50,7 +50,7 @@ router.post('/register', async (req, res, next) => {
   }
 
   try {
-    const adminExists = await User.findOne()
+    const adminExists = await User.findOne({})
 
     if (adminExists) {
       throw new HTTPException(403, 'You are not allowed to register')
