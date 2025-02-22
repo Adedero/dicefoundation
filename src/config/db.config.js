@@ -11,7 +11,7 @@ const sequelize = new Sequelize({
   password: env.get('DB_PASSWORD'),
   database: env.get('DB_NAME'),
   dialect: env.get('DB_DIALECT'),
-  logging: false
+  logging: false,
 })
 
 const db = {}

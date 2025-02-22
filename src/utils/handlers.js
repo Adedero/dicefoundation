@@ -217,7 +217,6 @@ module.exports = {
           // Save the updated record
           await recordToUpdate.save({ transaction });
 
-          console.log(recordToUpdate)
           updatedData = recordToUpdate
 
           const onBeforeEndContext = { req, res, data: updatedData, transaction }
