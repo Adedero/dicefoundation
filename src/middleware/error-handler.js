@@ -7,7 +7,7 @@ module.exports = (err, req, res, next) => {
 
   res.format({  
     'text/html': function () {
-      return res.render('error')
+      return res.render('error', { error: err })
     },
   
     'application/json': function () {
