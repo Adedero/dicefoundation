@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const env = require('../utils/env')
 
 const { db } = require('../config/db.config')
 const Setting = require('../models/setting.model');
@@ -33,9 +32,9 @@ router.get('/', async (req, res, next) => {
       db.Event.findAll({ where: { featured: true }, raw: true })
     ])
 
-    /* if (!homePage) {
+    if (!homePage) {
       return res.render('not-found')
-    } */
+    }
   
     const formattedEvents = featuredEvents.map((event) => {
       return {
@@ -61,6 +60,10 @@ router.get('/', async (req, res, next) => {
 router.get('/about', async (req, res, next) => {
   try {
     const aboutPage = await db.Page.findOne({ where: { title: 'about' }, raw: true })
+
+    if (!aboutPage) {
+      return res.render('not-found')
+    }
     res.locals.pageData = aboutPage
     res.render('about')
   } catch (error) {
