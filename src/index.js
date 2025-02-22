@@ -18,10 +18,9 @@ connectDB()
 
 const app = express()
 
-if (IS_PRODUCTION_ENV) {
-  app.set('trust proxy', '1')
-  app.use(helmet.hidePoweredBy())
-}
+app.set('trust proxy', '1')
+app.use(helmet.hidePoweredBy())
+
 app.use(helmet())
 
 app.use(cors({
