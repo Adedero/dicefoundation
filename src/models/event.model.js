@@ -71,8 +71,20 @@ const Event = sequelize.define(
       allowNull: true
     },
     gallery: {
-      type: DataTypes.STRING,
-      allowNull: true
+      type: DataTypes.JSON,
+      allowNull: true,
+      get() {
+        const rawValue = this.getDataValue('content');
+        try {
+          return typeof rawValue === 'string' ? JSON.parse(rawValue) : rawValue;
+        } catch (err) {
+          logger.error('error parsing content', err)
+          return rawValue;
+        }
+      },
+      set(value) {
+        this.setDataValue('content', typeof value === 'string' ? value : JSON.stringify(value));
+      }
     },
     registrationLink: {
       type: DataTypes.STRING,
@@ -80,7 +92,19 @@ const Event = sequelize.define(
     },
     socialMediaLinks: {
       type: DataTypes.JSON,
-      allowNull: true
+      allowNull: true,
+      get() {
+        const rawValue = this.getDataValue('content');
+        try {
+          return typeof rawValue === 'string' ? JSON.parse(rawValue) : rawValue;
+        } catch (err) {
+          logger.error('error parsing content', err)
+          return rawValue;
+        }
+      },
+      set(value) {
+        this.setDataValue('content', typeof value === 'string' ? value : JSON.stringify(value));
+      }
     },
     price: {
       type: DataTypes.FLOAT,

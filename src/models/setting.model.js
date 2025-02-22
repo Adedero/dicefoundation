@@ -15,7 +15,19 @@ const Setting = sequelize.define(
     },
     socialMediaLinks: {
       type: DataTypes.JSON,
-      allowNull: true
+      allowNull: true,
+      get() {
+        const rawValue = this.getDataValue('content');
+        try {
+          return typeof rawValue === 'string' ? JSON.parse(rawValue) : rawValue;
+        } catch (err) {
+          logger.error('error parsing content', err)
+          return rawValue;
+        }
+      },
+      set(value) {
+        this.setDataValue('content', typeof value === 'string' ? value : JSON.stringify(value));
+      }
     }
   },
   {
