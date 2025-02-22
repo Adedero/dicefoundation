@@ -28,8 +28,8 @@ router.get('/', async (req, res, next) => {
   try {
     const [homePage, featuredBooks, featuredEvents] = await Promise.all([
       db.Page.findOne({ where: { title: 'home' } }),
-      db.Book.findAll({ where: { featured: true } }),
-      db.Event.findAll({ where: { featured: true } })
+      db.Book.findAll({ where: { featured: true }, raw: true }),
+      db.Event.findAll({ where: { featured: true }, raw: true })
     ])
 
     if (!homePage) {
@@ -37,6 +37,7 @@ router.get('/', async (req, res, next) => {
     }
   
     const formattedEvents = featuredEvents.map((event) => {
+     
       return {
         ...event,
         ...(formatEventDates(event))
@@ -59,7 +60,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/about', async (req, res, next) => {
   try {
-    const aboutPage = await db.Page.findOne({ where: { title: 'about' } })
+    const aboutPage = await db.Page.findOne({ where: { title: 'about' }, raw: true })
 
     if (!aboutPage) {
       return res.render('not-found')
@@ -76,7 +77,7 @@ router.get('/books', async (req, res, next) => {
   const { search } = req.query
   const searchQuery = search ? search.toString() : ''
   try {
-    const books = await db.Book.findAll({ where: { title: { [Op.like]: `%${searchQuery}%` } } })
+    const books = await db.Book.findAll({ where: { title: { [Op.like]: `%${searchQuery}%` } }, raw: true })
 
     res.locals.pageData = {
       books,
@@ -91,7 +92,7 @@ router.get('/books', async (req, res, next) => {
 router.get('/books/:slug', async (req, res, next) => {
   const { slug } = req.params
   try {
-    const book = await db.Book.findOne({ where: { slug } })
+    const book = await db.Book.findOne({ where: { slug }, raw: true })
     if (!book) {
       return res.render('not-found')
     }
@@ -110,7 +111,7 @@ router.get('/books/:slug', async (req, res, next) => {
   const { search } = req.query
   const searchQuery = search ? search.toString() : ''
   try {
-    const events = await db.Event.findAll({ where: { title: { [Op.like]: `%${searchQuery}%` } } })
+    const events = await db.Event.findAll({ where: { title: { [Op.like]: `%${searchQuery}%` } }, raw: true })
 
     const formattedEvents = events.map((event) => {
       return {
@@ -132,7 +133,7 @@ router.get('/books/:slug', async (req, res, next) => {
 router.get('/events/:slug', async (req, res, next) => {
   const { slug } = req.params
   try {
-    const event = await db.Event.findOne({ where: { slug } })
+    const event = await db.Event.findOne({ where: { slug }, raw: true })
     if (!event) {
       return res.render('not-found')
     }

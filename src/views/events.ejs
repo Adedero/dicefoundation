@@ -49,7 +49,7 @@
 
             <div class="grid gap-10">
               <% locals.pageData.events.forEach((event) => { %>
-                <div data-aos="fade-up" class="bg-highlight p-4 md:p-6 rounded-xl flex flex-col-reverse md:flex-row gap-4">
+                <div data-aos="fade-up" class="bg-highlight p-4 md:p-6 rounded-xl flex flex-col-reverse md:justify-between md:flex-row gap-4">
                   <div>
                     <header class="flex items-center flex-wrap gap-5">
                       <div class="grid gap-1">
@@ -80,7 +80,7 @@
                           </p>
                         <% } %>
                         <p class="text-sm">
-                          <%= event.startTime.fullTime %> - <%= event.endTime.fullTime %>
+                          <%= event.startTime.fullTime %> <%= event.endTime && `- ${event.endTime?.fullTime}` %>
                         </p>
                       </div>
                     </header>

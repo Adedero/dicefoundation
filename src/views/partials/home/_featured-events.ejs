@@ -8,49 +8,49 @@
 
   <div class="mt-16 w-full">
     <div class="grid gap-10">
-      <% pageData?.featuredEvents?.forEach((event) => { %>
-        <div data-aos="fade-up" class="bg-highlight p-4 md:p-6 rounded-xl flex flex-col-reverse md:flex-row gap-4">
+      <% pageData?.featuredEvents.forEach((evt) => { %>
+        <div data-aos="fade-up" class="bg-highlight p-4 md:p-6 rounded-xl flex flex-col-reverse md:justify-between md:flex-row gap-4">
           <div>
             <header class="flex items-center flex-wrap gap-5">
               <div class="grid gap-1">
                 <div class="p-2 aspect-square flex-shrink-0 rounded-full border flex flex-col items-center justify-center">
                   <p class="text-3xl md:text-4xl">
-                    <%= event.startDate.day %>
+                    <%= evt.startDate.day %>
                   </p>
                 </div>
                 <p class="leading-none text-center uppercase font-semibold">
-                  <%= event.startDate.month %>
+                  <%= evt.startDate.month %>
                 </p>
                 <p class="leading-none text-center uppercase text-sm">
-                  <%= event.startDate.year %>
+                  <%= evt.startDate.year %>
                 </p>
               </div>
               
   
               <div>
                 <p class="title uppercase text-3xl md:text-4xl">
-                  <%= event.title %>
+                  <%= evt.title %>
                 </p>
                 <p>
-                  <%= event.venue %>
+                  <%= evt.venue %>
                 </p>
-                <% if (event.address && event.city && event.country) { %>
+                <% if (evt.address && evt.city && evt.country) { %>
                   <p>
-                    <%= event.address %>, <%= event.city %>, <%= event.country %>
+                    <%= evt.address %>, <%= evt.city %>, <%= evt.country %>
                   </p>
                 <% } %>
                 <p class="text-sm">
-                  <%= event.startTime.fullTime %> - <%= event.endTime.fullTime %>
+                  <%= evt.startTime.fullTime %> <%= evt.endTime && `- ${evt.endTime?.fullTime}` %>
                 </p>
               </div>
             </header>
   
             <p class="text-sm mt-3 md:text-balance">
-              <%= event.description %>
+              <%= evt.description %>
             </p>
   
             <div class="mt-3">
-              <a href="/events/<%= event.slug %>">
+              <a href="/events/<%= evt.slug %>">
                 <button class="w-32 btn primary">More</button>
               </a>
             </div>
@@ -58,7 +58,7 @@
           
           <div class="w-full md:w-[30%] flex-shrink-0 h-72 md:h-auto">
             <div class="rounded-xl w-full h-full overflow-hidden bg-slate-900">
-              <img src="<%= event.bannerImage %>" alt="<%= event.title %>" class="h-full w-full object-cover">
+              <img src="<%= evt.bannerImage %>" alt="<%= evt.title %>" class="h-full w-full object-cover">
             </div>
           </div>
         </div>
