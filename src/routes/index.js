@@ -10,7 +10,7 @@ const routes = () => {
   
   router.use('', userRouter)
   router.use('/auth', authRouter)
-  router.use('/admin', authenticate(),  adminRouter)
+  router.use('/api', authenticate(),  adminRouter)
 
   return router
 }

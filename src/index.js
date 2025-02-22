@@ -28,7 +28,6 @@ app.use(cors({
   origin: env.get('ADMIN_URL'),
 }))
 
-
 app.use(
   (req, res, next) => {
     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
@@ -47,6 +46,22 @@ app.set('view engine', 'ejs')
 app.set('views', path.resolve('src/views'))
 
 app.use(routes())
+
+//Admin route
+app.use(
+  (req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin')
+    next()
+  },
+  express.static('dist')
+)
+app.use('/admin', express.static('dist'));
+
+app.get('/admin*', (req, res) => {
+  res.sendFile(path.resolve('dist', 'index.html'));
+});
+
+
 app.use(function(req, res) {
   res.status(404).render('not-found')
 })
