@@ -19,6 +19,10 @@ const Event = sequelize.define(
     description: {
       type: DataTypes.TEXT
     },
+    howToRegister: {
+      type: DataTypes.TEXT,
+      allowNull: true 
+    },
     featured: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
@@ -55,15 +59,11 @@ const Event = sequelize.define(
       allowNull: true
     },
     startTime: {
-      type: DataTypes.TIME,
+      type: DataTypes.DATE,
       allowNull: true
     },
     endTime: {
-      type: DataTypes.TIME,
-      allowNull: true
-    },
-    mapLink: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: true
     },
     bannerImage: {

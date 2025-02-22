@@ -1,32 +1,48 @@
-<div class="relative w-dvh overflow-x-hidden h-full md:flex items-center justify-center px-4 md:px-12 lg:px-24">
-  
-  <div class="w-full md:order-2 md:w-1/2 lg:w-[26rem] relative">
-    <div class="h-80 md:h-[95dvh] md:fixed md:z-10 md:bottom-0 md:right-12 lg:right-[18%] xl:right-[22%] overflow-y-hidden">
-      <img data-aos="fade-up" src="/images/man-in-suit.png" class="h-full w-full object-cover object-top md:object-center md:object-cover" />
-      <div class="z-[1] md:hidden absolute bg-black blur-[10px] md:blur-md -bottom-[1.2rem] md:-bottom-5 w-full left-0 h-10"></div>
+<div class="relative w-dvw h-full md:grid md:grid-cols-2">
 
-      <div data-aos="fade-up" data-aos-delay="100" class="hidden md:block z-50 absolute right-0 top-1/2 -translate-y-1/2">
-        <%- include('../_social-medial-links', { flexDirection: 'flex-col', socials: locals.socials }) %>
+  <div class="relative overflow-x-hidden md:hidden h-full">
+    <div class="absolute w-full h-full p-4">
+      <p data-aos="fade-right" data-aos-delay="100" class="font-semibold">
+        Ikenna Okoroafor
+      </p>
+
+      <div class="mt-2">
+        <div class="h-[1px] bg-white/20 "></div>
+        <h1 data-aos="fade-right" data-aos-delay="200" class="title text-[7rem] md:text-[8rem] leading-none flex justify-between gap-1">
+          <span>Mr.</span>
+          <span>Dice</span>
+        </h1>
+        <div class="h-[1px] bg-white/20 "></div>
+
+        <p data-aos="fade-right" data-aos-delay="500" class="mt-4 bastliga text-[3.5rem] md:text-[5rem] font-thin">Ikenna Okoroafor</p>
       </div>
+
     </div>
+
+    <img data-aos="fade-up" src="<%= pageData.homePage.content.noBgImage %>" class="absolute bottom-0 right-0 h-full w-full max-w-[32rem] object-cover" />
   </div>
 
-  <div class="w-full text-center md:text-left md:order-1 mt-8 md:mt-0 flex-shrink-0 md:w-1/2 lg:w-[26rem]">
-    <p data-aos="fade-right" data-aos-delay="100" class="text-lg font-semibold">Ikenna Okoroafor</p>
-    <h1 data-aos="fade-right" data-aos-delay="200" class="title text-[7rem] md:text-[8rem] leading-none">MR. DICE</h1>
-    <div data-aos="fade-right" data-aos-delay="200" class="md:hidden my-2">
-      <%- include('../_social-medial-links', { socials: locals.socials }) %>
-    </div>
-    <p data-aos="fade-right" data-aos-delay="300" class="text-sm text-balance">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-      Qui sed perferendis maxime aperiam nobis provident molestias
-      voluptatibus aut error, repellendus sapiente a impedit soluta
-      repudiandae itaque labore architecto doloribus aliquam?
-    </p>
-    <button data-aos="fade-right" data-aos-delay="400" class="mt-5 btn primary w-48">More</button>
-    <p data-aos="fade-right" data-aos-delay="500" class="mt-4 bastliga text-[3.5rem] md:text-[5rem] font-thin">Ikenna Okoroafor</p>
+
+  <div class="hidden relative md:order-2 md:grid lg:grid-cols-2 gap-2 lg:p-2">
+    <img
+      data-aos="fade-up"
+      src="<%= pageData.homePage.content.heroImage1 %>"
+      class="block h-full object-cover lg:rounded-md"
+    />
+
+    <img
+      data-aos="fade-down"
+      src="<%= pageData.homePage.content.heroImage2 %>"
+      class="hidden lg:block h-full object-cover lg:rounded-md"
+    />
   </div>
 
-  
-  
+  <div class="hidden h-full md:flex relative md:order-1 flex-col justify-center gap-2 *:shrink-0 md:px-8 lg:px-16">
+    <p data-aos="fade-right" class="text-lg font-semibold">Ikenna Okoroafor</p>
+    <div class="h-[1px] bg-white/20"></div>
+    <h1 data-aos="fade-right" data-aos-delay="100" class="title text-[7rem] md:text-[8rem] leading-none">Mr. Dice</h1>
+    <div class="h-[1px] bg-white/20 "></div>
+    <p data-aos="fade-right" data-aos-delay="200" class="mt-2 text-sm text-balance whitespace-pre-wrap"><%= pageData.homePage.content.introduction %></p>
+    <p data-aos="fade-right" data-aos-delay="300" class="mt-3 bastliga md:text-[4rem] font-thin">Ikenna Okoroafor</p>
+  </div>
 </div>

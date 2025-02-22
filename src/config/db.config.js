@@ -43,7 +43,7 @@ function loadModels (database) {
     modelName = modelName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('');
     
     database[modelName] = modelClass
-    logger.info(`Loaded model: ${modelName}`)
+    //logger.info(`Loaded model: ${modelName}`)
   })
 }
 

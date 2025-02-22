@@ -46,6 +46,9 @@ const Book = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true
     },
+    howToGet: {
+      type: DataTypes.TEXT,
+    },
     price: {
       type: DataTypes.FLOAT,
       allowNull: true 

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-
+    include('./partials/_head', {
+      title: locals.pageData.event.title,
+      pageDescription: locals.pageData.event.description,
+      head: null
+    })
+  %>
+  <body class="bg-black text-white"> 
+    <%- include('./partials/_header') %>
+
+    <main>
+
+      <section id="hero">
+        <div class="section">
+          <div data-aos="fade-up" class="flex flex-col items-center justify-center gap-4">
+            <h1 class="text-balance title uppercase text-center text-5xl md:text-6xl">
+              <%= pageData.event.title %>
+            </h1>
+            <div class="w-[30%] h-[2px] bg-white"></div>
+            <p class="text-2xl text-center title uppercase">
+              <%= pageData.event.status %>
+            </p>
+          </div>
+
+          <div class="mt-16">
+            <div class="w-full grid gap-5 md:grid-cols-2">
+              <div>
+                <div class="rounded-xl w-full h-96 overflow-hidden">
+                  <img src="<%= pageData.event.bannerImage %>" class="w-full h-full object-cover" />
+                </div>
+
+                <div class="h-[1px] bg-white/40 mt-8 mb-5"></div>
+
+                <div>
+                  <p class="title text-2xl uppercase mb-2">Details</p>
+
+                  <div class="grid gap-1">
+                    <p>Title: <span class="ml-2 font-semibold"><%= pageData.event.title %></span></p>
+
+                    <p>Status <span class="ml-2 font-semibold"><%= pageData.event.status %></span></p>
+
+                    <% if (pageData.event.venue) { %>
+                      <p>Venue: <span class="ml-2 font-semibold"><%= pageData.event.venue %></span></p>
+                    <% } %>
+
+                    <% if (pageData.event.eventLink) { %>
+                      <p>Event Link: <span class="ml-2 font-semibold"><%= pageData.event.eventLink %></span></p>
+                    <% } %>
+
+                    <% if (pageData.event.address) { %>
+                      <p>Address: <span class="ml-2 font-semibold"><%= pageData.event.address %></span></p>
+                    <% } %>
+
+                    <% if (pageData.event.city || pageData.event.country) { %>
+                      <p>Location: <span class="ml-2 font-semibold"><%= pageData.event.city %>, <%= pageData.event.country %></span></p>
+                    <% } %>
+
+                    <% if (pageData.event.startDate) { %>
+                      <p>Start Date: <span class="ml-2 font-semibold"><%= pageData.event.startDate.fullDate %></span></p>
+                    <% } %>
+
+                    <% if (pageData.event.endDate && pageData.event.endDate.fullDate !== pageData.event.startDate.fullDate) { %>
+                      <p>End Date: <span class="ml-2 font-semibold"><%= pageData.event.endDate.fullDate %></span></p>
+                    <% } %>
+
+                    <% if (pageData.event.startTime) { %>
+                      <p>Start Time: <span class="ml-2 font-semibold"><%= pageData.event.startTime.fullTime %></span></p>
+                    <% } %>
+
+                    <% if (pageData.event.endTime && pageData.event.endTime.fullTime !== pageData.event.startTime.fullTime) { %>
+                      <p>End Time: <span class="ml-2 font-semibold"><%= pageData.event.endTime.fullTime %></span></p>
+                    <% } %>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <p class="title text-2xl uppercase">Description</p>
+                <div class="whitespace-pre-wrap"><%= pageData.event.description %></div>
+
+                <div class="h-[1px] bg-white/40 my-5"></div>
+
+                <% if (pageData.event.howToRegister) { %>
+                  <div>
+                    <p class="title text-2xl uppercase">How to register</p>
+                    <p class="whitespace-pre-wrap"><%= pageData.event.howToRegister %></p>
+                  </div>
+
+                  <div class="h-[1px] bg-white/40 my-5"></div>
+                <% } %>
+
+                <% if (pageData.event.registrationLink) { %>
+                  <div>
+                    <p class="title text-2xl uppercase">registration link</p>
+                    <p class="whitespace-pre-wrap"><%= pageData.event.registrationLink %></p>
+                  </div>
+
+                  <div class="h-[1px] bg-white/40 my-5"></div>
+                <% } %>
+
+                <% if (pageData.event.price !== null && pageData.event.price !== undefined) { %>
+                  <div>
+                    <p class="title text-2xl uppercase">Registration fee</p>
+  
+                    <% if (pageData.event.price >= 0) { %>
+                      <div>
+                        <p>Price: </p>
+                        <p class="font-semibold text-2xl">
+                          <%= pageData.event.currencySymbol %><%= pageData.event.price?.toLocaleString() %>
+                        </p>
+                      </div>
+                    <% } %>
+                  </div>
+
+                  <div class="h-[1px] bg-white/40 my-5"></div>
+                <% } %>
+
+
+                <% if (pageData.event.socialMediaLinks) { %>
+                  <div class="mt-2">
+                    <p class="title text-2xl uppercase">social media links: </p>
+                    <div class="mt-2 grid gap-2">
+                      <% pageData.event.socialMediaLinks?.forEach((link) => { %>
+                        <a href="<%= link.link %>" target="_blank" rel="noopener noreferrer" class="border border-opacity-50 hover:bg-white/20 transition-colors rounded-md py-2 px-3">
+                          <p class="text-lg font-semibold"><%= link.label %></p>
+                          <p class="text-sm"><%= link.link %> <span class="pi pi-external-link" style="font-size: 0.8rem;"></span></p>
+                        </a>
+                      <% }); %>
+                    </div>
+                  </div>
+
+                  <div class="h-[1px] bg-white/40 my-5"></div>
+                <% } %>
+
+                <% if (pageData.event.gallery && (pageData.event.gallery.length > 0)) { %>
+                  <div class="mt-2">
+                    <p class="title text-2xl uppercase">Gallery: </p>
+                    <div class="mt-2 grid gap-3 grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
+                      <% pageData.event.gallery?.forEach((image) => { %>
+                        <a href="<%= image %>" target="_blank" rel="noopener noreferrer" class="bg-white/20 rounded-md block overflow-hidden h-40 hover:brightness-75 transition-all">
+                          <img src="<%= image %>" class="w-full h-full object-cover">
+                        </a>
+                      <% }); %>
+                    </div>
+                  </div>
+
+                  <div class="h-[1px] bg-white/40 my-5"></div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <%- include('./partials/_footer') %>
+    </main>
+    <%- include("./partials/_scripts") %>
+  </body>
+</html>

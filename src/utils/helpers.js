@@ -62,9 +62,99 @@ const objectFromFields = (object, fields) => {
   return payload;
 }
 
+
+const getIcon = (name) => {
+  if (!name) return ''
+  const lower = name.toLowerCase()
+
+  switch (lower) {
+    case 'facebook':
+      return 'pi pi-facebook'
+    case 'twitter':
+      return 'pi pi-twitter'
+    case 'x':
+      return 'pi pi-twitter'
+    case 'linkedin':
+      return 'pi pi-linkedin'
+    case 'instagram':
+      return 'pi pi-instagram'
+    case 'github':
+      return 'pi pi-github'
+    default:
+      return ''
+  }
+}
+
+
+function getCurrencySymbol(currency) {
+  if (!currency) return ''
+  const lower = currency.trim().toLowerCase()
+  switch (lower) {
+    case 'naira':
+      return '₦'
+    case 'dollar':
+      return '$'
+    case 'euro':
+      return '€'
+    case 'pound':
+      return '£'
+    case 'rupees':
+      return '₹'
+    case 'yen':
+      return '¥'
+    default:
+      return '';
+  }
+}
+
+
+function formatEventDates(event) {
+  // Helper: Format a date (or date string) into an object with month, day, and year.
+  function formatDate(dateInput) {
+    var d = new Date(dateInput);
+    return {
+      month: d.toLocaleString('en-US', { month: 'short' }), // e.g., "Mar"
+      day: String(d.getDate()).padStart(2, '0'),              // two digits, e.g., "05"
+      year: d.getFullYear(),                                 // e.g., 2025
+      fullDate: d.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    };
+  }
+
+
+
+  // Helper: Format a Date object into an object with hour, minute, and am/pm.
+  function formatTime(dateInput) {
+    var d = new Date(dateInput);
+    var hour = d.getHours();
+    var minute = String(d.getMinutes()).padStart(2, '0');
+    var amorpm = hour >= 12 ? 'p.m.' : 'a.m.';
+    if (hour === 0) {
+      hour = 12;
+    } else if (hour > 12) {
+      hour = hour - 12;
+    }
+    return {
+      fullTime: `${hour}:${minute} ${amorpm}`,  
+      hour: String(hour).padStart(2, '0'),
+      minute: minute,
+      amorpm: amorpm
+    };
+  }
+
+  return {
+    startDate: event.startDate ? formatDate(event.startDate) : null,
+    endDate: event.endDate ? formatDate(event.endDate) : null,
+    startTime: event.startTime ? formatTime(event.startTime) : null,
+    endTime: event.endTime ? formatTime(event.endTime) : null
+  };
+}
+
 module.exports = {
+  formatEventDates,
   HTTPException,
   responder,
   isPlainObject,
-  objectFromFields
+  objectFromFields,
+  getIcon,
+  getCurrencySymbol
 }

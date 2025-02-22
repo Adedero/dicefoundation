@@ -45,17 +45,3 @@ if (navLinks) {
     }
   })
 }
-
-document.addEventListener('click', handleToastClose);
-
-function handleToastClose(event) {
-  // Check if the clicked element has the 'alert-close-btn' class
-  if (event.target.classList.contains('alert-close-btn')) {
-    
-    // Find the closest parent element with the class 'alert'
-    const toast = event.target.closest('.alert');
-    if (toast) {
-      toast.classList.remove('show');
-    }
-  }
-}

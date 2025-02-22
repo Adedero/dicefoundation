@@ -2,7 +2,8 @@
 <html lang="en">
   <%-
     include('./partials/_head', {
-      title: 'Mr. Dice - Books',
+      title: locals.pageData.book.title,
+      pageDescription: locals.pageData.book.description,
       head: null
     })
   %>
@@ -14,44 +15,111 @@
       <section id="hero">
         <div class="section">
           <div data-aos="fade-up" class="flex flex-col items-center justify-center gap-4">
-            <h1 class="text-balance title uppercase text-center text-5xl md:text-6xl">Morals of Excellence</h1>
+            <h1 class="text-balance title uppercase text-center text-5xl md:text-6xl">
+              <%= pageData.book.title %>
+            </h1>
             <div class="w-[30%] h-[2px] bg-white"></div>
             <p class="text-2xl text-center title uppercase">
-              Book subtitle
+              <%= pageData.book.subtitle %>
             </p>
           </div>
 
           <div class="mt-16">
-            <div class="relative overflow-y-auto h-dvh w-full grid gap-5 grid-cols-2">
-              <div class="sticky top-0">
-                <div class="rounded-xl w-full h-80 overflow-hidden">
-                  <img src="/images/book-cover.png" />
+            <div class="w-full grid gap-5 md:grid-cols-2">
+              <div>
+                <div class="rounded-xl w-full h-96 overflow-hidden">
+                  <img src="<%= pageData.book.coverImage %>" class="w-full h-full object-cover" />
+                </div>
+
+                <div class="h-[1px] bg-white/40 mt-8 mb-5"></div>
+
+                <div>
+                  <p class="title text-2xl uppercase mb-2">Details</p>
+
+                  <div class="grid gap-2">
+                    <p>Title: <span class="ml-2 font-semibold"><%= pageData.book.title %></span></p>
+
+                    <% if (pageData.book.subtitle) { %>
+                      <p>Subtitle <span class="ml-2 font-semibold"><%= pageData.book.subtitle %></span></p>
+                    <% } %>
+
+                    <p>Author: <span class="ml-2 font-semibold"><%= pageData.book.author %></span></p>
+
+                    <p>Status: <span class="ml-2 font-semibold"><%= pageData.book.status %></span></p>
+
+                    <% if (pageData.book.genre) { %>
+                      <p>Genre: <span class="ml-2 font-semibold"><%= pageData.book.genre %></span></p>
+                    <% } %>
+
+                    <% if (pageData.book.language) { %>
+                      <p>Language: <span class="ml-2 font-semibold"><%= pageData.book.language %></span></p>
+                    <% } %>
+
+                    <% if (pageData.book.pages) { %>
+                      <p>Pages: <span class="ml-2 font-semibold"><%= pageData.book.pages %></span></p>
+                    <% } %>
+
+                    <p>Price: 
+                      <span class="ml-2 font-semibold">
+                        <%= pageData.book.price ? `${pageData.book.currencySymbol}${pageData.book.price?.toLocaleString()}` : 'Free' %>
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
 
               <div>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur, beatae ratione? Libero ab repudiandae quas? Magni voluptatem reprehenderit, quisquam excepturi quibusdam tempora earum. Veniam quibusdam quis eaque aut nemo. Cumque!
-                  Molestiae earum, quam est dolores provident ducimus ipsa ratione, doloremque culpa velit veniam! Repellat pariatur rem adipisci vitae, minima cupiditate error sed non sapiente, sint, ratione qui quas earum dolore!
-                  Perferendis impedit quaerat a labore ducimus quia voluptate, recusandae reprehenderit, debitis beatae corrupti! Fugit, non, recusandae dolor minima totam repellendus consequuntur perferendis vel illum quos distinctio voluptate at a ab?
-                </p>
-                <br />
-                <p>
-                  Cumque molestiae earum, quam est dolores provident ducimus ipsa ratione, doloremque culpa velit veniam! Repellat pariatur rem adipisci vitae, minima cupiditate error sed non sapiente, sint, ratione qui quas earum dolore!
-                  Perferendis impedit quaerat a labore ducimus quia voluptate, recusandae reprehenderit, debitis beatae corrupti! Fugit, non, recusandae dolor minima totam repellendus consequuntur perferendis vel illum quos distinctio voluptate at a ab?
-                </p>
-                <br />
-                <p>
-                  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aut tenetur maxime quam repellat corporis nulla, ipsam velit et repellendus molestias sequi, fugiat atque ut, laboriosam architecto laudantium libero quia amet!
-                </p>
+                <p><span class="text-2xl font-semibold"><%= pageData.book.author %></span></p>
+
+                <div class="h-[1px] bg-white/40 my-5"></div>
+
+                <p class="title text-2xl uppercase">Description</p>
+                <div class="whitespace-pre-wrap"><%= pageData.book.description %></div>
+
+                <div class="h-[1px] bg-white/40 my-5"></div>
+
+                <div>
+                  <p class="title text-2xl uppercase">How to get this book</p>
+                  <p class="whitespace-pre-wrap"><%= pageData.book.howToGet %></p>
+                </div>
+
+                <div class="h-[1px] bg-white/40 my-5"></div>
+
+                <% if ((pageData.book.price !== null && pageData.book.price !== undefined) || pageData.book.buyLinks?.length > 0) { %>
+                  <div>
+                    <p class="title text-2xl uppercase">Buy this book</p>
+  
+                    <% if (pageData.book.price >= 0) { %>
+                      <div>
+                        <p>Price: </p>
+                        <p class="font-semibold text-2xl">
+                          <%= pageData.book.currencySymbol %><%= pageData.book.price?.toLocaleString() %>
+                        </p>
+                      </div>
+                    <% } %>
+  
+                    <div class="mt-2">
+                      <p>Buy Links: </p>
+                      <div class="mt-2 grid gap-2">
+                        <% pageData.book.buyLinks?.forEach((link) => { %>
+                          <a href="<%= link.link %>" target="_blank" rel="noopener noreferrer" class="border border-opacity-50 hover:bg-white/20 transition-colors rounded-md py-2 px-3">
+                            <p class="text-lg font-semibold"><%= link.label %></p>
+                            <p class="text-sm"><%= link.link %> <span class="pi pi-external-link" style="font-size: 0.8rem;"></span></p>
+                          </a>
+                        <% }); %>
+                      </div>
+                    </div>
+                  </div>
+                <% } %>
               </div>
+              
             </div>
           </div>
         </div>
       </section>
 
 
-      <%- include('./partials/_footer', { socials: locals.socials }) %>
+      <%- include('./partials/_footer') %>
     </main>
     <%- include("./partials/_scripts") %>
   </body>

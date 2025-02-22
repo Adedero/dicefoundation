@@ -10,9 +10,34 @@
     <%- /* include('./partials/_loader') */ %>
     <%- include('./partials/_header') %>
     <main class="grid">
-      <section id="hero" class="md:h-[calc(100dvh-4.5rem)]">
-        <%- include('./partials/home/_hero', { socials: locals.socials }) %>
+      <section id="hero" class="h-[calc(100dvh-4.5rem)]">
+        <%- include('./partials/home/_hero') %>
       </section>
+
+      <div class="mt-12 mb-16 px-4 text-center md:hidden">
+        <p data-aos="fade-up" class="text-sm text-balance whitespace-pre-wrap"><%= pageData.homePage.content.introduction %></p>
+        <a href="/about">
+          <button data-aos="fade-up" data-aos-delay="100" class="mt-5 btn primary w-48">More</button>
+        </a>
+        <p data-aos="fade-up" data-aos-delay="200" class="mt-4 bastliga text-[4.5rem] font-thin">Ikenna Okoroafor</p>
+      </div>
+
+    
+      <% if (pageData.homePage?.content?.aboutDiceFoundation) { %>
+        <section id="dice-foundation" class="bg-black z-30">
+          <div class="section overflowx-hidden">
+            <div data-aos="fade-up"  class="flex flex-col items-center justify-center gap-4">
+              <h1 class="text-balance title uppercase text-center text-5xl md:text-6xl">Dice Foundation</h1>
+              <div class="w-[40%] h-[2px] bg-white"></div>
+              <p class="text-2xl text-center title uppercase">An Overview</p>
+            </div>
+  
+            <div data-aos="fade-up" data-aos-delay="100" class="mt-16 w-full">
+              <div><%= pageData.homePage.content.aboutDiceFoundation %></div>
+            </div>
+          </div>
+        </section>
+      <% } %>
       
       <section id="featured-works" class="bg-black z-30">
         <%- include('./partials/home/_featured-work') %>
@@ -26,7 +51,7 @@
 
       </section>
 
-      <%- include('./partials/_footer', { socials: locals.socials }) %>
+      <%- include('./partials/_footer') %>
     </main>
     <%- include("./partials/_scripts") %>
   </body>
