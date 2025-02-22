@@ -9,7 +9,7 @@ const { Op } = require('sequelize')
 
 router.use(async(req, res, next) => {
   try {
-    const settings = await Setting.findOne({ raw: true })
+    const settings = await Setting.findOne({ })
     const socials = settings?.socialMediaLinks?.map((link) => {
       const label = link.label
       const href = link.link
@@ -28,8 +28,8 @@ router.get('/', async (req, res, next) => {
   try {
     const [homePage, featuredBooks, featuredEvents] = await Promise.all([
       db.Page.findOne({ where: { title: 'home' } }),
-      db.Book.findAll({ where: { featured: true }, raw: true }),
-      db.Event.findAll({ where: { featured: true }, raw: true })
+      db.Book.findAll({ where: { featured: true } }),
+      db.Event.findAll({ where: { featured: true } })
     ])
 
     if (!homePage) {
@@ -59,12 +59,13 @@ router.get('/', async (req, res, next) => {
 
 router.get('/about', async (req, res, next) => {
   try {
-    const aboutPage = await db.Page.findOne({ where: { title: 'about' }, raw: true })
+    const aboutPage = await db.Page.findOne({ where: { title: 'about' } })
 
     if (!aboutPage) {
       return res.render('not-found')
     }
     res.locals.pageData = aboutPage
+
     res.render('about')
   } catch (error) {
     next(error)
@@ -75,7 +76,7 @@ router.get('/books', async (req, res, next) => {
   const { search } = req.query
   const searchQuery = search ? search.toString() : ''
   try {
-    const books = await db.Book.findAll({ where: { title: { [Op.like]: `%${searchQuery}%` } }, raw: true })
+    const books = await db.Book.findAll({ where: { title: { [Op.like]: `%${searchQuery}%` } } })
 
     res.locals.pageData = {
       books,
@@ -90,7 +91,7 @@ router.get('/books', async (req, res, next) => {
 router.get('/books/:slug', async (req, res, next) => {
   const { slug } = req.params
   try {
-    const book = await db.Book.findOne({ where: { slug }, raw: true })
+    const book = await db.Book.findOne({ where: { slug } })
     if (!book) {
       return res.render('not-found')
     }
@@ -109,7 +110,7 @@ router.get('/books/:slug', async (req, res, next) => {
   const { search } = req.query
   const searchQuery = search ? search.toString() : ''
   try {
-    const events = await db.Event.findAll({ where: { title: { [Op.like]: `%${searchQuery}%` } }, raw: true })
+    const events = await db.Event.findAll({ where: { title: { [Op.like]: `%${searchQuery}%` } } })
 
     const formattedEvents = events.map((event) => {
       return {
@@ -131,7 +132,7 @@ router.get('/books/:slug', async (req, res, next) => {
 router.get('/events/:slug', async (req, res, next) => {
   const { slug } = req.params
   try {
-    const event = await db.Event.findOne({ where: { slug }, raw: true })
+    const event = await db.Event.findOne({ where: { slug } })
     if (!event) {
       return res.render('not-found')
     }
