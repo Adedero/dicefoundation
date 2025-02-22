@@ -14,7 +14,7 @@ const Page = sequelize.define(
       unique: true
     },
     content: {
-      type: DataTypes.JSON
+      type: DataTypes.JSON,
     }
   },
   {

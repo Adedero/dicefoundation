@@ -93,7 +93,7 @@ module.exports = {
         // Set caching headers (note: max-age is in seconds; here it is set to 10 seconds)
         res.setHeader('Cache-Control', 'public, max-age=10');
       
-        return res.status(200).json(result);
+        return res.status(200).json(JSON.parse(result));
       } catch (error) {
         next(error);
       }
