@@ -60,7 +60,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/about', async (req, res, next) => {
   try {
-    const aboutPage = await db.Page.findOne({ where: { title: 'about' }, raw: true })
+    const aboutPage = await db.Page.findOne({ where: { title: 'about' } })
 
     if (!aboutPage) {
       return res.render('not-found')
