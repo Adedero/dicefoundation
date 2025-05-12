@@ -4,7 +4,7 @@ const env = require('../utils/env')
 const path = require('node:path')
 const fs = require('node:fs')
 
-const sequelize = new Sequelize({
+/* const sequelize = new Sequelize({
   host: env.get('DB_HOST'),
   port: env.get('DB_PORT'),
   username: env.get('DB_USERNAME'),
@@ -12,6 +12,12 @@ const sequelize = new Sequelize({
   database: env.get('DB_NAME'),
   dialect: env.get('DB_DIALECT'),
   logging: false,
+}) */
+
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: env.get('DB_URL'),
+  logging: false
 })
 
 const db = {}

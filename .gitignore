@@ -4,3 +4,4 @@ build.css
 .env
 public/uploads
 .htaccess
+src/db/*.db

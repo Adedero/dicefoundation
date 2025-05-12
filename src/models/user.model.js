@@ -24,7 +24,8 @@ const User = sequelize.define(
       defaultValue: false
     },
     image: {
-      type: DataTypes.TEXT('long'),
+      //type: DataTypes.TEXT('long'),
+      type: DataTypes.TEXT(),
       allowNull: true
     }
   },

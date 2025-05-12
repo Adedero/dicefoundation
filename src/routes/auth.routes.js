@@ -33,7 +33,7 @@ router.post('/login', async (req, res, next) => {
     }
 
     const jwtPayload = { id: user.id, role: user.role }
-    const token = jwt.sign(jwtPayload, env.get('SECRET'), { expiresIn: '1h' })
+    const token = jwt.sign(jwtPayload, env.get('SECRET'), { expiresIn: '3h' })
     const responsePayload = { ...objectFromFields(user, ['id', 'name', 'email', 'image']), token }
     return res.status(200).json(responsePayload)
   } catch (error) {
